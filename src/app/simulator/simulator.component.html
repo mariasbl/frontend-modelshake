@@ -1,0 +1,166 @@
+<app-label-page
+  label="Simulator"
+  description="Explain what user can do in this page"
+></app-label-page>
+<div class="row">
+  <div class="col-4">
+    <div class="form">
+      <div class="pb-2">
+        <app-dropdown
+          label="Tipo"
+          [options]="[
+            { label: 'Validação', value: 'validation' },
+            { label: 'Verificação', value: 'verification' }
+          ]"
+          [(value)]="inputType"
+        ></app-dropdown>
+      </div>
+      <div class="pb-2">
+        <app-dropdown
+          label="Milestone"
+          [options]="getMilestoneOptions()"
+          [(value)]="inputMilestone"
+          (valueChange)="inputArtifact = ''"
+        ></app-dropdown>
+      </div>
+      <div class="pb-2">
+        <app-dropdown
+          label="Artefacto"
+          [(value)]="inputArtifact"
+          [options]="getArtifactOptions()"
+        ></app-dropdown>
+      </div>
+      <div *ngIf="inputType === 'validation'" class="pb-2">
+        <div class="font-size-14">Validations</div>
+        <div class="font-size-14 pt-2 pb-2">
+          {{ selectedValidations.length }} validations selected
+        </div>
+        <div
+          class="font-size-12 font-bold underline pointer pt-2 pb-2"
+          (click)="open = true"
+        >
+          Select validations
+        </div>
+      </div>
+      <div class="pb-4">
+        <app-input type="file" label="Ficheiro"></app-input>
+      </div>
+      <div class="d-flex justify-content-center">
+        <app-button
+          label="Submit"
+          (onClick)="
+            inputType === 'validation'
+              ? validationSimulator()
+              : verificationSimulator()
+          "
+        ></app-button>
+      </div>
+    </div>
+  </div>
+  <div class="col-8 pr-5 pl-5">
+    <div *ngIf="runSimulator">
+      <app-separator label="Details"></app-separator>
+      <div *ngIf="inputType === 'verification'" class="font-size-14 p-4">
+        <div *ngFor="let phrase of statusVerification">
+          <div
+            *ngIf="
+              phrase !== 'Model passed' && phrase !== 'Model failed';
+              else statusModel
+            "
+          >
+            <div>{{ phrase }}</div>
+            <br />
+          </div>
+          <ng-template #statusModel>
+            <app-label
+              [label]="phrase"
+              [backgroundColor]="
+                phrase === 'Model passed'
+                  ? 'rgb(37, 184, 0, 0.3)'
+                  : 'rgb(255, 35, 21, 0.3)'
+              "
+            ></app-label>
+          </ng-template>
+        </div>
+      </div>
+      <div *ngIf="inputType === 'validation'" class="pt-4">
+        <div class="font-size-14 pb-4">
+          Run {{ selectedValidations.length }} validations
+        </div>
+        <div class="d-flex align-items-center">
+          <app-label
+            class="pr-2"
+            [label]="getResults('passed') + ' passed'"
+            [backgroundColor]="'rgb(37, 184, 0, 0.3)'"
+          ></app-label>
+          <app-label
+            class="pr-2"
+            [label]="getResults('error') + ' error(s)'"
+            [backgroundColor]="'rgb(255, 35, 21, 0.3)'"
+          ></app-label>
+          <app-label
+            class="pr-2"
+            [label]="getResults('warning') + ' warning(s)'"
+            [backgroundColor]="'rgb(255, 176, 21, 0.3)'"
+          ></app-label>
+        </div>
+        <div class="mt-5">
+          <app-table
+            [headerTemplate]="headerTemplate"
+            [rowTemplate]="rowTemplate"
+            [content]="contentTable"
+          ></app-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-modal [open]="open" (close)="changeStatusModal(false)">
+  <div class="font-color-gray font-size-14">
+    Selecione um conjuto de validações
+  </div>
+  <hr />
+  <div class="d-flex justify-content-center">
+    <div>
+      <div *ngFor="let validation of getMilestone(inputMilestone)?.validations">
+        <app-checkbox
+          [label]="validation.description"
+          (checkboxChange)="changedSelectedValidations(validation, $event)"
+        >
+          <app-label
+            class="pr-2"
+            [label]="validation.type"
+            [backgroundColor]="getColor(validation.type)"
+          ></app-label>
+        </app-checkbox>
+      </div>
+    </div>
+  </div>
+</app-modal>
+
+<ng-template #headerTemplate>
+  <tr>
+    <th *ngFor="let header of headersTable">{{ header }}</th>
+  </tr>
+</ng-template>
+
+<ng-template #rowTemplate let-row>
+  <tr>
+    <td>{{ row.description }}</td>
+    <td>
+      <span *ngFor="let artifact of row.artifacts">{{
+        getArtifact(artifact)
+      }}</span>
+    </td>
+    <td>{{ row.errorMessage ? row.errorMessage : "-" }}</td>
+    <td>
+      <div class="d-flex justify-content-center">
+        <app-label
+          class="pr-2"
+          [label]="row.status"
+          [backgroundColor]="getColor(row.status)"
+        ></app-label>
+      </div>
+    </td>
+  </tr>
+</ng-template>

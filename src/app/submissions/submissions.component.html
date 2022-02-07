@@ -1,0 +1,81 @@
+<app-label-page
+  label="Submission"
+  description="Explain what user can do in this page"
+></app-label-page>
+<div *ngFor="let s of submissions" class="font-size-14">
+  <app-separator [label]="s.milestone"></app-separator>
+  <div *ngIf="s.submission" class="sub-bg">
+    <div class="d-flex justify-content-end">
+      <div
+        class="font-color-blue font-bold pointer underline"
+        (click)="setCollapse(s.milestone)"
+      >
+        {{ s.collapse ? " + see more" : "- show less" }}
+      </div>
+    </div>
+    <div>{{ s.submission.file }}</div>
+    <div>{{ s.submission.version }}</div>
+    <div>{{ "Run " + s.submission.validations.length + " validations" }}</div>
+    <div class="d-flex align-items-center">
+      <app-label
+        class="pr-2"
+        [label]="getResults(s.milestone, 'passed') + ' passed'"
+        [backgroundColor]="'rgb(37, 184, 0, 0.3)'"
+      ></app-label>
+      <app-label
+        class="pr-2"
+        [label]="getResults(s.milestone, 'error') + ' error(s)'"
+        [backgroundColor]="'rgb(255, 35, 21, 0.3)'"
+      ></app-label>
+      <app-label
+        class="pr-2"
+        [label]="getResults(s.milestone, 'warning') + ' warning(s)'"
+        [backgroundColor]="'rgb(255, 176, 21, 0.3)'"
+      ></app-label>
+    </div>
+    <div *ngIf="!s.collapse">
+      <div>{{ s.submission.finalGrade }}</div>
+      <div>{{ s.submission.comment }}</div>
+    </div>
+    <div>
+      {{ s.submission.submissionDate + " às " + s.submission.submissionHour }}
+    </div>
+    <div *ngIf="!s.collapse">
+      <app-separator label="Details"></app-separator>
+      <div class="mt-4">
+        <app-table
+          [headerTemplate]="headerTemplate"
+          [rowTemplate]="rowTemplate"
+          [content]="s.submission.validations"
+        ></app-table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #headerTemplate>
+  <tr>
+    <th *ngFor="let header of headersTable">{{ header }}</th>
+  </tr>
+</ng-template>
+
+<ng-template #rowTemplate let-row>
+  <tr>
+    <td>{{ row.description }}</td>
+    <td>
+      <span *ngFor="let artifact of row.artifacts">{{
+        getArtifact(artifact)
+      }}</span>
+    </td>
+    <td>{{ row.errorMessage ? row.errorMessage : "-" }}</td>
+    <td>
+      <div class="d-flex justify-content-center">
+        <app-label
+          class="pr-2"
+          [label]="row.status"
+          [backgroundColor]="getColor(row.status)"
+        ></app-label>
+      </div>
+    </td>
+  </tr>
+</ng-template>

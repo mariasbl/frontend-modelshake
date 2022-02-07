@@ -1,0 +1,12 @@
+<label class="container">
+  <div class="d-flex align-items-center">
+    <ng-content></ng-content>
+    {{ label }}
+  </div>
+  <input
+    type="checkbox"
+    [checked]="value"
+    (change)="value = !value; changeValue()"
+  />
+  <span class="checkmark"></span>
+</label>

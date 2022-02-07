@@ -1,0 +1,9 @@
+<div *ngIf="open">
+  <div class="modal-content">
+    <div class="d-flex justify-content-end">
+      <i class="pi pi-times pointer font-size-18" (click)="closeModal()"></i>
+    </div>
+    <ng-content></ng-content>
+  </div>
+  <div class="overlay" (click)="closeModal()"></div>
+</div>

@@ -1,0 +1,13 @@
+<div
+  class="alerts"
+  [ngStyle]="{ backgroundColor: type === 'error' ? error : info }"
+>
+  <i
+    class="pi {{ type }}"
+    [class.pi-info-circle]="type === 'info'"
+    [class.pi-exclamation-triangle]="type === 'error'"
+  ></i>
+  <div class="font-bold font-size-14 font-color-dark-blue pl-2">
+    {{ message }}
+  </div>
+</div>

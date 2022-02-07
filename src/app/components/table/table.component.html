@@ -1,0 +1,8 @@
+<table>
+  <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
+  <ng-container *ngFor="let row of content">
+    <ng-container
+      *ngTemplateOutlet="rowTemplate; context: { $implicit: row }"
+    ></ng-container>
+  </ng-container>
+</table>

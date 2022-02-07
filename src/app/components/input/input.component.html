@@ -1,0 +1,15 @@
+<div class="font-size-14">{{ label }}</div>
+<input
+  *ngIf="type !== 'date'; else date"
+  class="font-size-14"
+  type="{{ type }}"
+  placeholder="{{ label }}"
+  [(ngModel)]="value"
+/>
+<ng-template #date>
+  <input
+    type="date"
+    [ngModel]="value | date: 'yyyy-MM-dd'"
+    (ngModelChange)="value = $event"
+  />
+</ng-template>

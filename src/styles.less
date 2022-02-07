@@ -1,0 +1,100 @@
+/* You can add global styles to this file, and also import other style files */
+:root {
+  --color-orange: #ff844b;
+  --color-dark-blue: #2d3e5f;
+  --color-blue: #518099;
+  --color-blueish: #ecf3f6;
+  --color-gray: #bebebe;
+  --color-grayish: #eff3f6;
+  --color-white: #ffffff;
+  --color-error: rgb(255, 35, 21, 0.3);
+  --color-success: rgb(37, 184, 0, 0.3);
+}
+
+body {
+  font-family: "Montserrat" !important;
+  color: var(--color-dark-blue) !important;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url(./app/styles/fonts/Montserrat-Regular.ttf);
+}
+
+@font-face {
+  font-family: "Montserrat Bold";
+  src: url(./app/styles/fonts/Montserrat-Bold.ttf);
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.font {
+  &-bold {
+    font-family: "Montserrat Bold";
+  }
+  &-size {
+    &-12 {
+      //see more
+      font-size: 12px;
+    }
+    &-14 {
+      //see more
+      font-size: 14px;
+    }
+    &-16 {
+      //text
+      font-size: 16px;
+    }
+    &-18 {
+      //buttons
+      font-size: 18px;
+    }
+    &-20 {
+      //tabs and status
+      font-size: 20px;
+    }
+    &-30 {
+      //label page
+      font-size: 30px;
+    }
+  }
+  &-color {
+    &-dark-blue {
+      color: var(--color-dark-blue);
+    }
+    &-blue {
+      color: var(--color-blue);
+    }
+    &-white {
+      color: var(--color-white);
+    }
+    &-gray {
+      color: var(--color-gray);
+    }
+  }
+}
+
+th {
+  padding: 14px 0px;
+  text-align: center !important;
+  background-color: #c6d5dd;
+  color: var(--color-dark-blue);
+}
+
+td {
+  padding: 16px 10px;
+  text-align: center;
+  color: var(--color-dark-blue);
+  border-top: 1px solid #c6d5dd;
+}
+
+table {
+  width: 100%;
+  font-size: 13px;
+}
+
+.underline {
+  text-decoration: underline;
+}

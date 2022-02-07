@@ -1,0 +1,20 @@
+<div class="navbar d-flex justify-content-between">
+  <div class="font-size-30">Modelshake</div>
+  <div class="d-flex align-items-center justify-content-start">
+    <div
+      class="tab d-flex justify-content-start align-items-center font-size-14 pointer"
+      *ngFor="let tab of tabs"
+      [class.selected]="currentTab === tab.label"
+      [routerLink]="tab.route"
+    >
+      <i class="pi {{ tab.icon }} pl-4 pr-2"></i>
+      <div>{{ tab.label }}</div>
+    </div>
+    <div class="off ml-4 pointer">
+      <i
+        class="pi pi-power-off font-color-white"
+        style="vertical-align: middle"
+      ></i>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,87 @@
+<app-label-page
+  label="Individual Manager"
+  description="Explain what user can do in this page"
+></app-label-page>
+<div class="d-flex align-items-start justify-content-start">
+  <div *ngFor="let state of status">
+    <div class="col-padding">
+      <app-column label="{{ state.label }}">
+        <div *ngFor="let task of tasks | filterByStatus: state.value">
+          <app-card [task]="task"></app-card>
+        </div>
+      </app-column>
+    </div>
+  </div>
+  <app-column [dark]="true">
+    <div *ngFor="let milestone of milestones">
+      <app-card [isMilestone]="true" [milestone]="milestone"> </app-card>
+    </div>
+  </app-column>
+</div>
+<app-modal [open]="open" (close)="changeStatusModal(false)">
+  <div class="p-5" *ngIf="currentEvent === 'pi-check'">
+    <div class="d-flex justify-content-center pb-5">
+      <span class="font-size-14">
+        Are you sure that want to complete this task?</span
+      >
+    </div>
+    <div class="d-flex justify-content-center">
+      <div class="pr-2">
+        <app-button
+          label="Cancel"
+          [secondary]="true"
+          (onClick)="changeStatusModal(false)"
+        ></app-button>
+      </div>
+      <app-button label="Complete"></app-button>
+    </div>
+  </div>
+  <div class="p-5" *ngIf="currentEvent === 'pi-more'">
+    <div class="container">
+      <div class="pb-4">
+        <app-label
+          label="{{ currentMilestone.label }}"
+          backgroundColor="{{ getRgb(currentMilestone.color) }}"
+        ></app-label>
+      </div>
+
+      <div class="pb-4">
+        <div class="font-bold font-size-18">{{ currentMilestone.title }}</div>
+        <div class="pt-1">
+          <div class="font-size-14">
+            {{ getDate(currentMilestone.deadlineDate) }}
+          </div>
+          <div class="font-size-14">{{ currentMilestone.deadlineHour }}</div>
+        </div>
+      </div>
+
+      <div class="font-bold font-size-14 pt-3 pb-3">Descrição</div>
+      <div class="font-size-14">{{ currentMilestone.description }}</div>
+      <div class="font-bold font-size-14 pt-3 pb-3">Artefactos</div>
+      <ul>
+        <li
+          *ngFor="let artifact of currentMilestone.artifacts"
+          class="font-size-14 pt-1"
+        >
+          {{ getArtifact(artifact) }}
+        </li>
+      </ul>
+      <div class="d-flex justify-content-start align-items-center pt-3 pb-3">
+        <div class="font-bold font-size-14 pr-3">Peso</div>
+        <div class="font-size-14">{{ currentMilestone.weight + " %" }}</div>
+      </div>
+      <div class="d-flex justify-content-start align-items-center pb-3">
+        <div class="font-bold font-size-14 pr-3">Limite de Submissões</div>
+        <div class="font-size-14">{{ currentMilestone.limit }}</div>
+      </div>
+      <div class="pt-5">
+        <app-alerts
+          type="info"
+          message="{{
+            getLeftDays(currentMilestone.deadlineDate)
+          }} days left to deliver"
+        ></app-alerts>
+      </div>
+    </div>
+  </div>
+</app-modal>
