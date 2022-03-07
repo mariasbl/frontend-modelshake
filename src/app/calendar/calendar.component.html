@@ -2,3 +2,44 @@
   label="Calendar"
   description="Explain what user can do in this page"
 ></app-label-page>
+<div class="row pt-4">
+  <div class="col-6">
+    <p-calendar
+      class="bg-blueish"
+      [inline]="true"
+      [minDate]="minDate"
+      [(ngModel)]="value"
+    >
+      <ng-template pTemplate="date" let-date>
+        <span
+          [ngStyle]="{
+            backgroundColor:
+              isAfterToday(date) && hasEvent(date)
+                ? 'var(--color-dark-blue)'
+                : 'transparent',
+            padding: date.day > 9 ? '10px' : '10px 20px',
+            color: isAfterToday(date) && hasEvent(date) && 'white',
+            borderRadius: isAfterToday(date) && hasEvent(date) && '6px'
+          }"
+          >{{ date.day }}</span
+        >
+      </ng-template>
+    </p-calendar>
+  </div>
+  <div class="col-6">
+    <app-separator [label]="this.value.toDateString()"></app-separator>
+    <ng-container *ngIf="events | filterByDate: this.value as result">
+      <ng-container *ngIf="result.length; else hasNotEvents">
+        <div *ngFor="let event of result">
+          <app-event [event]="event"></app-event>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #hasNotEvents>
+  <div class="font-size-14 font-color-gray my-4">
+    There aren’t events for this day
+  </div>
+</ng-template>

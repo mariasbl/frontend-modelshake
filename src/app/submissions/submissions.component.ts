@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { AppService } from "../app.service";
 import { Milestone, Submission } from "../utils/interfaces";
-import { convertArtifact } from "../utils/utils";
+import { convertArtifact, transformDate } from "../utils/utils";
 import { SubmissionService } from "./submissions.service";
 
 @Component({
@@ -23,6 +23,8 @@ export class SubmissionsComponent implements OnInit {
     "Estado",
   ];
 
+  open: boolean = false;
+
   constructor(
     private appService: AppService,
     private submissionService: SubmissionService
@@ -41,9 +43,10 @@ export class SubmissionsComponent implements OnInit {
   }
 
   getResults(milestone: string, status: string) {
-    return this.submissions
+    let elems = this.submissions
       .find((s) => s.milestone === milestone)
-      ?.submission?.validations.filter((v) => v.status === status).length;
+      ?.submission?.validations?.filter((v) => v.status === status).length;
+    return elems ? elems : 0;
   }
 
   getColor(status: string) {
@@ -51,6 +54,10 @@ export class SubmissionsComponent implements OnInit {
     else if (status === "error") return "rgb(255, 35, 21, 0.3)";
     else if (status === "warning") return "rgb(255, 176, 21, 0.3)";
     else return "";
+  }
+
+  getDate(date: string) {
+    return transformDate(date);
   }
 
   getArtifact(artifact: string) {
@@ -62,5 +69,9 @@ export class SubmissionsComponent implements OnInit {
       if (s.milestone === milestone) s.collapse = !s.collapse;
       return s;
     });
+  }
+
+  changeStatusModal(value: boolean) {
+    this.open = value;
   }
 }

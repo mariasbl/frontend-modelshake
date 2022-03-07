@@ -2,21 +2,35 @@
   label="Submission"
   description="Explain what user can do in this page"
 ></app-label-page>
-<div *ngFor="let s of submissions" class="font-size-14">
+<app-actions
+  icon="pi-plus"
+  [large]="true"
+  [position]="true"
+  (onClick)="changeStatusModal(true)"
+></app-actions>
+<div *ngFor="let s of submissions" class="font-size-13">
   <app-separator [label]="s.milestone"></app-separator>
-  <div *ngIf="s.submission" class="sub-bg">
+  <div *ngIf="s.submission; else hasNotSubmission" class="sub-bg">
     <div class="d-flex justify-content-end">
       <div
         class="font-color-blue font-bold pointer underline"
         (click)="setCollapse(s.milestone)"
       >
-        {{ s.collapse ? " + see more" : "- show less" }}
+        {{ s.collapse ? " + more details" : "- show less" }}
       </div>
     </div>
-    <div>{{ s.submission.file }}</div>
-    <div>{{ s.submission.version }}</div>
-    <div>{{ "Run " + s.submission.validations.length + " validations" }}</div>
-    <div class="d-flex align-items-center">
+    <div class="d-flex align-items-center mb-3">
+      <i class="pi pi-file-big mr-2"></i>
+      <div>{{ s.submission.file }}</div>
+    </div>
+    <div *ngIf="!s.collapse" class="d-flex align-items-center mb-3">
+      <div class="font-bold mr-3">Version</div>
+      <div>{{ s.submission.version }}</div>
+    </div>
+    <div class="font-bold">
+      {{ "Run " + s.submission.validations.length + " validations" }}
+    </div>
+    <div class="d-flex align-items-center mt-3 mb-3">
       <app-label
         class="pr-2"
         [label]="getResults(s.milestone, 'passed') + ' passed'"
@@ -34,11 +48,21 @@
       ></app-label>
     </div>
     <div *ngIf="!s.collapse">
-      <div>{{ s.submission.finalGrade }}</div>
-      <div>{{ s.submission.comment }}</div>
+      <div class="d-flex align-items-center mb-3">
+        <div class="font-bold mr-3">Final Grade</div>
+        <div>{{ s.submission.finalGrade }}</div>
+      </div>
+      <div class="d-flex align-items-start mb-3">
+        <div class="font-bold mr-3">Comment</div>
+        <div>{{ s.submission.comment }}</div>
+      </div>
     </div>
-    <div>
-      {{ s.submission.submissionDate + " às " + s.submission.submissionHour }}
+    <div class="font-size-12 font-color-gray my-4">
+      {{
+        getDate(s.submission.submissionDate) +
+          " às " +
+          s.submission.submissionHour
+      }}
     </div>
     <div *ngIf="!s.collapse">
       <app-separator label="Details"></app-separator>
@@ -52,6 +76,7 @@
     </div>
   </div>
 </div>
+<app-modal [open]="open" (close)="changeStatusModal(false)"> </app-modal>
 
 <ng-template #headerTemplate>
   <tr>
@@ -78,4 +103,10 @@
       </div>
     </td>
   </tr>
+</ng-template>
+
+<ng-template #hasNotSubmission>
+  <div class="font-color-gray my-4">
+    There aren’t submissions in this milestone
+  </div>
 </ng-template>

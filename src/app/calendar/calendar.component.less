@@ -1,0 +1,43 @@
+::ng-deep {
+  .p-calendar .p-datepicker {
+    width: 500px !important;
+    border: none;
+    background-color: var(--color-blueish);
+    border-radius: 35px;
+  }
+
+  .p-datepicker .p-datepicker-header {
+    background-color: var(--color-blueish);
+  }
+  .p-datepicker-calendar {
+    th {
+      background-color: transparent !important;
+    }
+  }
+  .p-datepicker table td.p-datepicker-today > span {
+    background-color: var(--color-grayish);
+    font-weight: 700;
+    color: var(--color-dark-blue);
+  }
+
+  .p-datepicker table td.p-datepicker-today > span.p-highlight {
+    color: #ffffff;
+    background: var(--color-blue);
+  }
+
+  .p-datepicker table td > span.p-highlight {
+    background-color: var(--color-blue);
+  }
+
+  .p-datepicker:not(.p-disabled)
+    table
+    td
+    span:not(.p-highlight):not(.p-disabled):hover {
+    background-color: var(--color-blue);
+    color: white;
+  }
+
+  .p-datepicker-title {
+    color: var(--color-dark-blue);
+  }
+}

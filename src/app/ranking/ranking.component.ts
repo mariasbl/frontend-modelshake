@@ -1,15 +1,24 @@
-import { Component, OnInit } from '@angular/core';
-import { AppService } from '../app.service';
+import { Component, OnInit } from "@angular/core";
+import { AppService } from "../app.service";
+import { Gamification } from "../utils/interfaces";
+import { RankingService } from "./ranking.service";
 
 @Component({
-  selector: 'app-ranking',
-  templateUrl: './ranking.component.html',
-  styleUrls: ['./ranking.component.less'],
+  selector: "app-ranking",
+  templateUrl: "./ranking.component.html",
+  styleUrls: ["./ranking.component.less"],
 })
 export class RankingComponent implements OnInit {
-  constructor(private appService: AppService) {}
+  gamification: Gamification[] = [];
+  headersTable: string[] = ["Position", "Badge", "Level", "Team", "Points"];
+
+  constructor(
+    private appService: AppService,
+    private rankingService: RankingService
+  ) {}
 
   ngOnInit(): void {
-    this.appService.tabEvent.next('Ranking');
+    this.appService.tabEvent.next("Ranking");
+    this.gamification = this.rankingService.getRanking();
   }
 }

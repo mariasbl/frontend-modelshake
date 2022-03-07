@@ -2,3 +2,27 @@
   label="Ranking"
   description="Explain what user can do in this page"
 ></app-label-page>
+<app-table
+  [headerTemplate]="headerTemplate"
+  [rowTemplate]="rowTemplate"
+  [content]="gamification"
+></app-table>
+
+<ng-template #headerTemplate>
+  <tr>
+    <th *ngFor="let header of headersTable">{{ header }}</th>
+  </tr>
+</ng-template>
+
+<ng-template #rowTemplate let-row let-i="rowIndex">
+  <tr>
+    <td>{{ i }}</td>
+    <td><i [class]="'pi ' + row.badge"></i></td>
+    <td>{{ row.level }}</td>
+    <td>{{ row.team.id }}</td>
+    <ng-container *ngFor="let grade of row.grades | keyvalue">
+      <td>{{ grade.value }}</td>
+    </ng-container>
+    <td>{{ row.points }}</td>
+  </tr>
+</ng-template>

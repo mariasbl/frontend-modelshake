@@ -70,3 +70,39 @@ export interface Option {
   label: string;
   value: string;
 }
+
+export interface Question {
+  id: string;
+  title: string;
+  description: string;
+  creationDate: string;
+  creationHour: string;
+  createdBy: string;
+  responses: Response[];
+  milestone: Milestone;
+}
+
+export interface Response {
+  message: string;
+  creationDate: string;
+  creationHour: string;
+  createdBy: string;
+}
+
+export interface Event {
+  title: string;
+  description: string;
+  location?: string;
+  date: string;
+  startHour: string;
+  endHour?: string;
+  createdBy?: string;
+}
+
+export interface Gamification {
+  badge: string;
+  level: number;
+  team: Team;
+  grades: Map<string, string>;
+  points: number;
+}

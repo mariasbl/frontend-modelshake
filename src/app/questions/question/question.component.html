@@ -1,0 +1,48 @@
+<app-label-page
+  label="Question"
+  description="Explain what user can do in this page"
+></app-label-page>
+<div class="question-bg">
+  <div
+    class="d-flex align-items-center font-size-14 mb-4 pointer"
+    routerLink="/questions"
+  >
+    <i class="pi pi-arrow-left mr-2"></i>
+    <div>back</div>
+  </div>
+  <app-label
+    label="{{ question.milestone.label }}"
+    backgroundColor="{{ getRgb(question.milestone.color) }}"
+  ></app-label>
+  <div class="font-size-14 font-bold mt-3">{{ question.title }}</div>
+  <div class="font-size-13 mt-1">
+    {{ question.description }}
+  </div>
+  <div class="font-size-12 mt-4">by {{ question.createdBy }}</div>
+  <div class="font-size-12 font-color-gray mt-1">
+    {{ getDate(question.creationDate) }} às {{ question.creationHour }}
+  </div>
+  <hr />
+
+  <!---responses--->
+  <div *ngFor="let response of question.responses" class="mt-4">
+    <div class="font-size-12 font-bold mb-2">{{ response.createdBy }}</div>
+    <div class="response">
+      <div class="font-size-12">{{ response.message }}</div>
+      <div class="font-size-12 font-color-gray mt-1">
+        {{ getDate(question.creationDate) }} às {{ question.creationHour }}
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex align-items-center mt-4 mb-3">
+    <i class="pi pi-pencil mr-2"></i>
+    <div class="font-size-14 font-bold">Write a message</div>
+  </div>
+  <textarea
+    class="w-100 font-size-14 mb-3"
+    rows="5"
+    placeholder="Type a message..."
+  ></textarea>
+  <app-button label="Send" (onClick)="addResponse()"></app-button>
+</div>
