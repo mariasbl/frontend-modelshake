@@ -18,7 +18,7 @@ export class QuestionsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.appService.tabEvent.next("Questions");
+    this.appService.updateTab("Questions");
     this.questions = this.questionService.getQuestions();
   }
 

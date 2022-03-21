@@ -5,8 +5,9 @@ import { Milestone, Submission } from "../utils/interfaces";
   providedIn: "root",
 })
 export class SubmissionService {
-  mockMilestones: Milestone[] = [
+  mockMilestones: any[] = [
     {
+      _id: "",
       label: "1º deadline",
       color: "#FF844B",
       title: "First deadline",
@@ -53,6 +54,7 @@ export class SubmissionService {
       ],
     },
     {
+      _id: "",
       label: "2º deadline",
       color: "#518099",
       title: "Second deadline",

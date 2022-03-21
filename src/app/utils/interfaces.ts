@@ -1,30 +1,40 @@
 export enum TaskStatus {
   TODO = "todo",
-  INPROGRESS = "inprogress",
+  INPROGRESS = "in_progress",
   DONE = "done",
 }
 
+export enum Roles {
+  STUDENT = "student",
+  TEACHER = "teacher",
+  ADMIN = "admin",
+}
+
 export interface Task {
+  _id: string;
+  title: string;
   description: string;
-  deadline: string;
+  deadlineDate: string;
+  estimate: number;
   status: string;
   assignedUser?: string;
   required: boolean;
-  milestone: Milestone;
-  team: Team;
+  milestone_id: string;
+  team_id: string;
 }
 
 export interface Milestone {
+  _id: string;
   label: string;
   color: string;
   title: string;
   description: string;
   artifacts: string[];
-  weight: number;
-  limit: number;
   deadlineDate: string;
   deadlineHour: string;
-  validations: Validation[];
+  weight: number;
+  limit?: number;
+  campaign_id: string;
 }
 
 export interface Validation {
@@ -60,6 +70,7 @@ export interface Team {
 }
 
 export interface User {
+  _id: string;
   name: string;
   email: string;
   role: string;
@@ -105,4 +116,9 @@ export interface Gamification {
   team: Team;
   grades: Map<string, string>;
   points: number;
+}
+
+export interface Authentication {
+  username: string;
+  password: string;
 }

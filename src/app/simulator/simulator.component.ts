@@ -41,7 +41,7 @@ export class SimulatorComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.appService.tabEvent.next("Simulator");
+    this.appService.updateTab("Simulator");
     this.milestones = this.simulatorService.getMilestones();
   }
 

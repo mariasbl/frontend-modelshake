@@ -1,139 +1,49 @@
-import { Component, OnInit } from '@angular/core';
-import * as moment from 'moment';
-import { AppService } from '../app.service';
-import { Milestone, Task, TaskStatus, Option } from '../utils/interfaces';
-import {
-  convertArtifact,
-  getDifferenceBetweenDates,
-  hexToRgb,
-  transformDate,
-} from '../utils/utils';
-import { HomeService } from './home.service';
+import { Component, OnInit } from "@angular/core";
+import { AppService } from "../app.service";
+import { ApiService } from "../utils/api/api";
+import { Milestone, Task, TaskStatus, Option } from "../utils/interfaces";
+import { hexToRgb } from "../utils/utils";
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.less'],
+  selector: "app-home",
+  templateUrl: "./home.component.html",
+  styleUrls: ["./home.component.less"],
 })
 export class HomeComponent implements OnInit {
   status: Option[] = [
-    { label: 'To do', value: TaskStatus.TODO },
-    { label: 'In progress', value: TaskStatus.INPROGRESS },
-    { label: 'Done', value: TaskStatus.DONE },
+    { label: "To do", value: TaskStatus.TODO },
+    { label: "In progress", value: TaskStatus.INPROGRESS },
+    { label: "Done", value: TaskStatus.DONE },
   ];
 
-  milestones!: Milestone[];
-  tasks!: Task[];
+  milestones: Milestone[] = [];
+  tasks: Task[] = [];
 
   open: boolean = false;
 
-  currentEvent: string = '';
   currentTask!: Task;
   currentMilestone!: Milestone;
 
-  //input's to new/edit task
-  inputDescription: string = '';
-  inputDeadline: Date | string = '';
-  inputMilestoneSelectedValue: string = '';
-  //input's to reassign task
-  inputReassignTask: string = '';
-  //input's to start task
-  inputStartTask: string = '';
-  //input's to edit task
+  //To remove
+  team_id = "622e21b0fa4cb471e3519492";
+  campaign_id = "622dfc4a92445c3092f956e9";
 
-  constructor(
-    private appService: AppService,
-    private homeService: HomeService
-  ) {}
+  constructor(private appService: AppService, private api: ApiService) {}
 
   ngOnInit(): void {
-    this.appService.tabEvent.next('Home');
-    this.milestones = this.homeService.getMilestones();
-    this.tasks = this.homeService.getTasks();
-    this.homeService.actionEvent.subscribe((action) => this.applyEvent(action));
-    this.homeService.currentTaskEvent.subscribe((task) => {
-      this.currentTask = task;
-      this.inputDescription = task.description;
-      this.inputDeadline = moment(task.deadline, 'D/MM/YYYY').toDate();
-      this.inputMilestoneSelectedValue = task.milestone.color;
-      this.inputReassignTask = task.assignedUser!;
+    this.appService.updateTab("Home");
+    this.api.getMilestonesByCampaign(this.campaign_id).subscribe({
+      next: (milestones) => (this.milestones = milestones),
+      error: () => {},
+      complete: () => {},
     });
-    this.homeService.currentMilestoneEvent.subscribe((milestone) => {
-      this.currentMilestone = milestone;
+    this.api.getTasksByTeam(this.team_id).subscribe({
+      next: (tasks) => (this.tasks = tasks),
+      error: () => {},
     });
   }
 
-  changeStatusModal(value: boolean) {
-    this.open = value;
-    if (!value) this.close();
-  }
-
-  close() {
-    this.inputDeadline = '';
-    this.inputDescription = '';
-    this.inputReassignTask = '';
-    this.inputMilestoneSelectedValue = '';
-    this.inputStartTask = '';
-  }
-
-  applyEvent(event: string) {
-    this.currentEvent = event;
-    this.changeStatusModal(true);
-  }
-
-  getMilestone(value: any) {
-    return this.milestones.find((milestone) => milestone.color === value);
-  }
-
-  getUserOptions(): Option[] {
-    let array: Option[] = [];
-    this.currentTask.team.elements.map((e) => {
-      array.push({ label: e.name, value: e.email });
-    });
-    return array;
-  }
-
-  getMilestoneOptions(): Option[] {
-    let array: Option[] = [];
-    this.milestones.map((e) => {
-      array.push({ label: e.title, value: e.color });
-    });
-    return array;
-  }
-
-  getRgb(hex: string) {
-    return hexToRgb(hex);
-  }
-
-  getDate(date: string) {
-    return transformDate(date);
-  }
-
-  getArtifact(artifact: string) {
-    return convertArtifact(artifact);
-  }
-
-  getLeftDays(date: string) {
-    return getDifferenceBetweenDates(date);
-  }
-
-  createTask() {
-    /*TODO*/
-  }
-
-  editTask() {
-    /*TODO*/
-  }
-
-  startTask() {
-    /*TODO*/
-  }
-
-  reassignTask() {
-    /*TODO*/
-  }
-
-  removeTask() {
-    /*TODO*/
+  getMilestoneById(id: string) {
+    return this.milestones.find((milestone) => milestone._id === id);
   }
 }

@@ -31,7 +31,7 @@ export class SubmissionsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.appService.tabEvent.next("Submissions");
+    this.appService.updateTab("Submissions");
     this.submissionService.getMilestones().forEach((milestone) => {
       let submission = this.submissionService.getSubmission(milestone.color);
       this.submissions.push({

@@ -6,10 +6,11 @@ import { Gamification, Milestone } from "../utils/interfaces";
 })
 export class RankingService {
   mockGrade: Map<string, string> = new Map();
-  mockRanking: Gamification[] = [];
+  mockRanking: any[] = [];
 
-  mockMilestones: Milestone[] = [
+  mockMilestones: any[] = [
     {
+      _id: "",
       label: "1º deadline",
       color: "#FF844B",
       title: "First deadline",
@@ -56,6 +57,7 @@ export class RankingService {
       ],
     },
     {
+      _id: "",
       label: "2º deadline",
       color: "#518099",
       title: "Second deadline",
@@ -148,5 +150,9 @@ export class RankingService {
 
   getRanking() {
     return this.mockRanking;
+  }
+
+  getMilestones() {
+    return this.mockMilestones;
   }
 }

@@ -1,0 +1,39 @@
+<div class="d-flex login">
+  <div
+    class="col-6 d-flex flex-column align-items-center justify-content-center"
+  >
+    <app-logo></app-logo>
+    <span class="font-size-14 pt-3"
+      >Lorem Ipsum is simply dummy text of the printing and typesetting
+      industry.</span
+    >
+    <div
+      class="d-flex flex-column justify-content-center align-items-center pt-5"
+    >
+      <div class="font-size-13 font-bold pb-3">Ainda não te registaste?</div>
+      <app-button
+        [style.width]="'fit-content'"
+        label="Registar"
+        [routerLink]="['/register']"
+        routerLinkActive="router-link-active"
+      ></app-button>
+    </div>
+  </div>
+  <div
+    class="col-6 d-flex flex-column align-items-center justify-content-center"
+  >
+    <div class="box">
+      <div class="font-size-18 font-bold">Iniciar sessão</div>
+      <hr class="pb-5 m-0" />
+      <app-input type="text" label="Username" [(value)]="username"></app-input>
+      <app-input type="text" label="Password" [(value)]="password"></app-input>
+      <div class="d-flex justify-content-center mt-5">
+        <app-button
+          [style.width]="'fit-content'"
+          label="Iniciar sessão"
+          (onClick)="login()"
+        ></app-button>
+      </div>
+    </div>
+  </div>
+</div>

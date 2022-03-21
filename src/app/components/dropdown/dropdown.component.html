@@ -1,5 +1,6 @@
-<div class="font-size-14">{{ label }}</div>
+<div *ngIf="!action; else dropdownAction" class="font-size-14">{{ label }}</div>
 <select
+  *ngIf="!action"
   [(ngModel)]="value"
   class="dropdown font-size-14"
   (ngModelChange)="emit()"
@@ -9,3 +10,22 @@
     {{ option.label }}
   </option>
 </select>
+
+<ng-template #dropdownAction>
+  <div class="dropdown-action">
+    <div class="dropdown-action-btn font-bold mr-3">
+      <i [class]="'pi '+ icon +'  pr-2'"></i>
+      <span class="m-auto">{{ label }}</span>
+    </div>
+    <div class="dropdown-action-content">
+      <div class="d-flex flex-column">
+        <span
+          *ngFor="let option of options"
+          class="option font-bold"
+          (click)="valueChange.emit(option.value)"
+          >{{ option.label }}</span
+        >
+      </div>
+    </div>
+  </div>
+</ng-template>

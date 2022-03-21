@@ -5,7 +5,7 @@ import { Question } from "../utils/interfaces";
   providedIn: "root",
 })
 export class QuestionService {
-  mockQuestions: Question[] = [
+  mockQuestions: any[] = [
     {
       id: "1",
       title: "Lorem Ipsum",
@@ -24,6 +24,7 @@ export class QuestionService {
         },
       ],
       milestone: {
+        _id: "",
         label: "1º deadline",
         color: "#FF844B",
         title: "First deadline",
@@ -88,6 +89,7 @@ export class QuestionService {
         },
       ],
       milestone: {
+        _id: "",
         label: "2º deadline",
         color: "#518099",
         title: "Second deadline",

@@ -10,13 +10,27 @@
 
 <ng-template #headerTemplate>
   <tr>
-    <th *ngFor="let header of headersTable">{{ header }}</th>
+    <ng-container *ngFor="let header of headersTable">
+      <th>
+        <ng-container *ngIf="header.isMilestone; else headerLabel">
+          <div class="d-flex justify-content-center">
+            <app-label
+              label="{{ header.label }}"
+              backgroundColor="{{ header.bgColor }}"
+            ></app-label>
+          </div>
+        </ng-container>
+        <ng-template #headerLabel>
+          {{ header.label }}
+        </ng-template>
+      </th>
+    </ng-container>
   </tr>
 </ng-template>
 
-<ng-template #rowTemplate let-row let-i="rowIndex">
+<ng-template let-row let-rowIndex="$index" #rowTemplate >
   <tr>
-    <td>{{ i }}</td>
+    <td>{{ rowIndex }}</td>
     <td><i [class]="'pi ' + row.badge"></i></td>
     <td>{{ row.level }}</td>
     <td>{{ row.team.id }}</td>

@@ -21,7 +21,7 @@ export class CalendarComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.appService.tabEvent.next("Calendar");
+    this.appService.updateTab("Calendar");
     this.events = this.calendarService.getEvents();
   }
 

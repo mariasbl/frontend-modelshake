@@ -1,27 +1,35 @@
-import { Component, OnInit } from '@angular/core';
-import { AppService } from 'src/app/app.service';
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+import { Subscription } from "rxjs";
+import { AppService } from "src/app/app.service";
+import { navbarTabsConfig } from "src/app/utils/config/config";
 
 @Component({
-  selector: 'app-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.less'],
+  selector: "app-navbar",
+  templateUrl: "./navbar.component.html",
+  styleUrls: ["./navbar.component.less"],
 })
-export class NavbarComponent implements OnInit {
-  tabs: { icon: string; label: string; route: string }[] = [
-    { icon: 'pi-home', label: 'Home', route: 'home' },
-    { icon: 'pi-list', label: 'My tasks', route: 'my-tasks' },
-    { icon: 'pi-check', label: 'Simulator', route: 'simulator' },
-    { icon: 'pi-upload', label: 'Submissions', route: 'submissions' },
-    { icon: 'pi-question-circle', label: 'Questions', route: 'questions' },
-    { icon: 'pi-list', label: 'Ranking', route: 'ranking' },
-    { icon: 'pi-calendar', label: 'Calendar', route: 'calendar' },
-  ];
+export class NavbarComponent implements OnInit, OnDestroy {
+  tabs = navbarTabsConfig;
 
   currentTab!: string;
+  subscription!: Subscription;
 
-  constructor(private appService: AppService) {}
+  constructor(private appService: AppService, private router: Router) {}
 
   ngOnInit(): void {
-    this.appService.tabEvent.subscribe((tab) => (this.currentTab = tab));
+    this.subscription = this.appService.tab$.subscribe((tab) => {
+      this.currentTab = tab;
+      setTimeout(() => {}, 0);
+    });
+  }
+
+  logout() {
+    //localStorage.removeItem("jwt");
+    this.router.navigate(["/login"]);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

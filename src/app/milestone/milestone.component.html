@@ -1,0 +1,68 @@
+<div class="container">
+  <span class="font-size-18 font-bold">{{ milestone?.title }}</span>
+  <app-label
+    class="pt-2"
+    label="{{ milestone?.label }}"
+    backgroundColor="{{ getRgb(milestone && milestone.color) }}"
+  ></app-label>
+  <div class="d-flex flex-column font-size-13 font-color-gray pt-3">
+    <span>
+      {{ getDate(milestone?.deadlineDate) }}
+    </span>
+    <span> {{ milestone?.deadlineHour }}</span>
+  </div>
+  <div class="font-bold font-size-14 pt-3 pb-3">Descrição</div>
+  <div class="font-size-14">{{ milestone?.description }}</div>
+  <div class="font-bold font-size-14 pt-3 pb-3">Artefactos</div>
+  <ul>
+    <li *ngFor="let artifact of milestone?.artifacts" class="font-size-14 pt-1">
+      {{ getArtifact(artifact) }}
+    </li>
+  </ul>
+  <div class="d-flex justify-content-start align-items-center pt-3 pb-3">
+    <div class="font-bold font-size-14 pr-3">Peso</div>
+    <div class="font-size-14">{{ milestone?.weight + " %" }}</div>
+  </div>
+  <div class="d-flex justify-content-start align-items-center">
+    <div class="font-bold font-size-14 pr-3">Limite de Submissões</div>
+    <div class="font-size-14">{{ milestone?.limit || "-" }}</div>
+  </div>
+  <div class="py-5">
+    <app-alerts
+      type="info"
+      message="{{ getLeftDays(milestone?.deadlineDate) }} days left to deliver"
+    ></app-alerts>
+  </div>
+  <div class="font-bold font-size-14 mb-3">Tarefas</div>
+  <app-table
+    [headerTemplate]="headerTemplate"
+    [rowTemplate]="rowTemplate"
+    [content]="tasks"
+  ></app-table>
+</div>
+
+<ng-template #headerTemplate>
+  <tr>
+    <ng-container *ngFor="let header of headersTable">
+      <th>
+        {{ header }}
+      </th>
+    </ng-container>
+  </tr>
+</ng-template>
+
+<ng-template let-row let-rowIndex="$index" #rowTemplate>
+  <tr class="tr-hover pointer" [routerLink]="['/task/' + row._id]">
+    <td class="font-size-13">{{ row.description }}</td>
+    <td class="font-size-12">{{ getDate(row.deadlineDate) }}</td>
+    <td class="font-size-12">{{ getName(row.assignedUser) || "-" }}</td>
+    <td class="font-size-12">
+      <div class="d-flex justify-content-center">
+        <app-label
+          label="{{ getLabel(row.status) }}"
+          backgroundColor="{{ getColor(row.status) }}"
+        ></app-label>
+      </div>
+    </td>
+  </tr>
+</ng-template>

@@ -9,7 +9,7 @@ import {
   providedIn: "root",
 })
 export class SimulatorService {
-  mockTeam: Team = {
+  mockTeam: any = {
     id: "1",
     elements: [
       { name: "Afonso Pereira", email: "ap@fct.unl.pt", role: "student" },
@@ -18,8 +18,8 @@ export class SimulatorService {
     ],
   };
 
-  mockMilestones: Milestone[] = [
-    {
+  mockMilestones: any[] = [
+    { _id: "",
       label: "1º deadline",
       color: "#FF844B",
       title: "First deadline",
@@ -66,6 +66,7 @@ export class SimulatorService {
       ],
     },
     {
+      _id: "",
       label: "2º deadline",
       color: "#518099",
       title: "Second deadline",

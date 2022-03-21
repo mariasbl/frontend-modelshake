@@ -31,6 +31,14 @@ body {
   width: fit-content;
 }
 
+.bg {
+  &-color {
+    &-blueish {
+      background-color: var(--color-blueish);
+    }
+  }
+}
+
 .font {
   &-bold {
     font-family: "Montserrat Bold";
@@ -63,6 +71,9 @@ body {
       //label page
       font-size: 30px;
     }
+    &-40 {
+      font-size: 40px;
+    }
   }
   &-color {
     &-dark-blue {
@@ -71,11 +82,17 @@ body {
     &-blue {
       color: var(--color-blue);
     }
+    &-blueish {
+      color: var(--color-blueish);
+    }
     &-white {
       color: var(--color-white);
     }
     &-gray {
       color: var(--color-gray);
+    }
+    &-orange {
+      color: var(--color-orange);
     }
   }
 }
@@ -102,3 +119,4 @@ table {
 .underline {
   text-decoration: underline;
 }
+

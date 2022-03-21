@@ -1,39 +1,42 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { HomeService } from 'src/app/home/home.service';
-import { Milestone, Task } from 'src/app/utils/interfaces';
-import { hexToRgb, transformDate, transformHour } from 'src/app/utils/utils';
+import { Component, Input, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+import { ApiService } from "src/app/utils/api/api";
+import { Milestone, Task } from "src/app/utils/interfaces";
+import { hexToRgb, transformDate } from "src/app/utils/utils";
 
 @Component({
-  selector: 'app-card',
-  templateUrl: './card.component.html',
-  styleUrls: ['./card.component.less'],
+  selector: "app-card",
+  templateUrl: "./card.component.html",
+  styleUrls: ["./card.component.less"],
 })
 export class CardComponent implements OnInit {
   @Input() isMilestone: boolean = false;
-  @Input() milestone!: Milestone;
+  @Input() milestone: Milestone | undefined;
+  @Input() task: Task | undefined;
 
-  @Input() task!: Task;
+  assignedUser: string = "";
 
-  constructor(private router: Router, private homeService: HomeService) {}
+  constructor(private router: Router, private api: ApiService) {}
 
-  ngOnInit(): void {}
+  async ngOnInit() {
+    if (this.task && this.task?.assignedUser)
+      this.assignedUser = await this.getUserName(this.task.assignedUser);
+  }
 
   checkPath() {
-    return this.router.url === '/my-tasks';
+    return this.router.url === "/my-tasks";
   }
 
-  getRgb(hex: string) {
-    return hexToRgb(hex);
+  getRgb(hex: string | undefined) {
+    return hex && hexToRgb(hex);
   }
 
-  getDate(date: string) {
-    return transformDate(date);
+  getDate(date: string | undefined) {
+    return date && transformDate(date);
   }
 
-  emitEvent(event: string) {
-    this.homeService.actionEvent.next(event);
-    this.homeService.currentTaskEvent.next(this.task);
-    this.homeService.currentMilestoneEvent.next(this.milestone);
+  async getUserName(id: string) {
+    const user = await this.api.getUserById(id).toPromise();
+    return user.name;
   }
 }

@@ -9,7 +9,7 @@ export class InputComponent implements OnInit {
   @Input() type: string = '';
   @Input() label: string = '';
 
-  inputValue: string | Date = '';
+  inputValue: string | Date | number = '';
 
   @Input()
   get value() {

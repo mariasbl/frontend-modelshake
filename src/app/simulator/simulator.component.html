@@ -122,7 +122,7 @@
   <hr />
   <div class="d-flex justify-content-center">
     <div>
-      <div *ngFor="let validation of getMilestone(inputMilestone)?.validations">
+      <!--<div *ngFor="let validation of getMilestone(inputMilestone)">
         <app-checkbox
           [label]="validation.description"
           (checkboxChange)="changedSelectedValidations(validation, $event)"
@@ -133,7 +133,7 @@
             [backgroundColor]="getColor(validation.type)"
           ></app-label>
         </app-checkbox>
-      </div>
+      </div>-->
     </div>
   </div>
 </app-modal>
